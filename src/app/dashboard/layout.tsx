@@ -19,6 +19,7 @@ import {
   School,
   ClipboardCheck,
   SquareUserRound,
+  FileText,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -66,7 +67,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         title: "Attendance",
         href: "/dashboard/attendance",
         icon: ClipboardCheck,
-        roles: ["FACULTY",],
+        roles: ["FACULTY"],
       },
       {
         title: "My Timetable",
@@ -81,10 +82,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         roles: ["ADMIN", "FACULTY"],
       },
       {
-        title:"Attendance",
-        href:"/dashboard/student/attendance",
-        icon:ClipboardCheck,
-        roles:["STUDENT"]
+        title: "Attendance",
+        href: "/dashboard/student/attendance",
+        icon: ClipboardCheck,
+        roles: ["STUDENT"],
       },
 
       {
@@ -106,6 +107,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         roles: ["ADMIN", "FACULTY"],
       },
       {
+        title: "Notice",
+        href: "/dashboard/notice",
+        icon: FileText,
+        roles: ["STUDENT,FACULTY"],
+      },
+      {
+        title: "Notice",
+        href: "/dashboard/admin/notices",
+        icon: FileText,
+        roles: ["ADMIN"],
+      },
+      {
         title: "Analytics",
         href: "/dashboard/analytics",
         icon: BarChart3,
@@ -115,7 +128,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         title: "Profile",
         href: "/dashboard/student/profile",
         icon: SquareUserRound,
-        roles: [ "STUDENT"],
+        roles: ["STUDENT"],
       },
     ];
 
