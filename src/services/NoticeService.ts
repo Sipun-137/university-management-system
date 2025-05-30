@@ -52,3 +52,32 @@ export async function deleteNotice(id: number): Promise<void> {
         console.log(error);
     }
 }
+
+export async function getNoticeById(id: number) {
+    try {
+        const response =await axios.get(`${base_url}/api/notice/${id}`, {
+            headers: {
+                Authorization: `Bearer ${Cookies.get("token")}`
+            }
+        })
+       return response.data;       
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+export async function updateNotice(id: number, notice: Omit<Notice, "id">) {
+    try {
+        const response = await axios.put(`${base_url}/api/notice/${id}`, notice, {
+            headers: {
+                Authorization: `Bearer ${Cookies.get("token")}`
+            }
+        })
+        const data = response.data;
+        return data;
+    } catch (e) {
+        console.log(e);
+    }
+
+}

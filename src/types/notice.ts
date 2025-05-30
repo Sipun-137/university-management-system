@@ -1,4 +1,4 @@
-export type NoticeType = "EXAM" | "ASSIGNMENT" | "EVENT" | "ANNOUNCEMENT" | "OTHER"
+export type NoticeType = "EXAM" | "ASSIGNMENT"|"GENERAL"|"URGENT" | "EVENT" | "ANNOUNCEMENT" | "OTHER"
 
 export interface Notice {
   id?: number
