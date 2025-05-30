@@ -20,6 +20,7 @@ import {
   ClipboardCheck,
   SquareUserRound,
   FileText,
+  FileWarning,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -117,6 +118,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         href: "/dashboard/admin/notices",
         icon: FileText,
         roles: ["ADMIN"],
+      },
+      {
+        title: "Grievances",
+        href: "/dashboard/admin/grievances",
+        icon: FileWarning,
+        roles: ["ADMIN"],
+      },
+       {
+        title: "Grievances",
+        href: "/dashboard/grievances",
+        icon: FileWarning,
+        roles: ["STUDENT","FACULTY"],
       },
       {
         title: "Analytics",
