@@ -6,7 +6,6 @@ import { useContext, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BarChart3,
   BookOpen,
   Calendar,
   GraduationCap,
@@ -51,12 +50,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         href: "/dashboard",
         icon: LayoutDashboard,
         roles: ["ADMIN", "FACULTY", "STUDENT","EXAM_CONTROLLER", "guest"],
-      },
-      {
-        title: "Courses",
-        href: "/dashboard/courses",
-        icon: BookOpen,
-        roles: ["ADMIN", "FACULTY", "STUDENT"],
       },
       {
         title: "Academics",
@@ -119,15 +112,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         icon: Users,
         roles: ["EXAM_CONTROLLER"],
       },
-
-
-
-
-
-
-
-
-
       {
         title: "Notice",
         href: "/dashboard/notice",
@@ -151,12 +135,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         href: "/dashboard/grievances",
         icon: FileWarning,
         roles: ["STUDENT","FACULTY"],
-      },
-      {
-        title: "Analytics",
-        href: "/dashboard/analytics",
-        icon: BarChart3,
-        roles: ["ADMIN"],
       },
       {
         title: "Profile",
