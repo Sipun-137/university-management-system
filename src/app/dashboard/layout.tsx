@@ -50,7 +50,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         title: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
-        roles: ["ADMIN", "FACULTY", "STUDENT", "guest"],
+        roles: ["ADMIN", "FACULTY", "STUDENT","EXAM_CONTROLLER", "guest"],
       },
       {
         title: "Courses",
@@ -108,10 +108,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         roles: ["ADMIN", "FACULTY"],
       },
       {
+        title: "EXAM",
+        href: "/dashboard/exam",
+        icon: FileText,
+        roles: ["EXAM_CONTROLLER"],
+      },
+      {
+        title: "Marker Management",
+        href: "/dashboard/marker",
+        icon: Users,
+        roles: ["EXAM_CONTROLLER"],
+      },
+
+
+
+
+
+
+
+
+
+      {
         title: "Notice",
         href: "/dashboard/notice",
         icon: FileText,
-        roles: ["STUDENT,FACULTY"],
+        roles: ["STUDENT","FACULTY"],
       },
       {
         title: "Notice",

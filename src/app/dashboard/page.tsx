@@ -1,5 +1,6 @@
 "use client"
 
+import DashboardOverview from "@/components/dashboards/dashboard-overview";
 import { GlobalContext } from "@/context";
 // import { useSearchParams } from "next/navigation"
 import { useContext } from "react"
@@ -33,6 +34,8 @@ export default function DashboardPage() {
       case "STUDENT":
         // return <StudentDashboard />
         return "student Dashboard "
+      case "EXAM_CONTROLLER":
+        return <DashboardOverview/>
       default:
         // return <GuestDashboard />
         return "guest Dashboard"
