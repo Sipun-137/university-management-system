@@ -15,12 +15,13 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
-import axios from "axios";
 import { GlobalContext } from "@/context";
+import { Login } from "@/services/AuthServide";
 export default function LoginPage() {
   const router = useRouter();
 
-  const { isAuthUser, setAuthUser, setRole } = useContext(GlobalContext);
+  const { isAuthUser, setAuthUser, setRole, verified, setVerified } =
+    useContext(GlobalContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleSubmit = async () => {
@@ -32,29 +33,43 @@ export default function LoginPage() {
       return;
     }
 
-    const result = await axios.post("http://localhost:8085/login", formData);
-    console.log(result.data);
-    if (result.data.success) {
-      localStorage.setItem("token", result.data.token);
-      Cookies.set("token", result.data.token);
-      localStorage.setItem("user", JSON.stringify({role: result.data.role, email: result.data.email}));
-      setRole(result.data.role);
+    const result = await Login(formData);
+    console.log(result);
+    if (result.success) {
+      localStorage.setItem("token", result.token);
+      Cookies.set("token", result.token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ role: result.role, email: result.email })
+      );
+      setRole(result.role);
+      if (result.isVerified === "VERIFIED") {
+        setVerified(true);
+      }
       setAuthUser(true);
-
-      router.push("/dashboard");
-      setFormData({ email: "", password: "" });
       toast.success("Login successful");
+      setFormData({ email: "", password: "" });
+      if (result.isVerified !== "VERIFIED") {
+        router.push("/change-password");
+      } else {
+        router.push("/dashboard");
+      }
     } else {
-      toast.error(result.data.message);
+      toast.error(result.message);
       setFormData({ email: "", password: "" });
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (isAuthUser) {
-      router.push('/dashboard'); // ✅ safe to navigate here
+      if (verified) {
+        setVerified(true);
+        router.push("/dashboard"); // ✅ safe to navigate here
+      } else {
+        router.push("/change-password");
+      }
     }
-  }, [isAuthUser, router]);
+  }, [isAuthUser, router, setVerified, verified]);
   return (
     <>
       <Toaster position="bottom-right" />
