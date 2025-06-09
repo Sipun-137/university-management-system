@@ -40,7 +40,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const { role, setRole } = useContext(GlobalContext);
+  const { role, setRole, setAuthUser, setVerified, setUser } =
+    useContext(GlobalContext);
+
+  const logout = () => {
+    Cookies.remove("token");
+    localStorage.clear();
+    setRole(null);
+    setAuthUser(false);
+    setVerified(false);
+    setUser(null);
+  };
 
   // Define navigation items based on role
   const getNavItems = () => {
@@ -49,7 +59,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         title: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
-        roles: ["ADMIN", "FACULTY", "STUDENT","EXAM_CONTROLLER", "guest"],
+        roles: ["ADMIN", "FACULTY", "STUDENT", "EXAM_CONTROLLER", "guest"],
       },
       {
         title: "Academics",
@@ -116,7 +126,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         title: "Notice",
         href: "/dashboard/notice",
         icon: FileText,
-        roles: ["STUDENT","FACULTY"],
+        roles: ["STUDENT", "FACULTY"],
       },
       {
         title: "Notice",
@@ -130,11 +140,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         icon: FileWarning,
         roles: ["ADMIN"],
       },
-       {
+      {
         title: "Grievances",
         href: "/dashboard/grievances",
         icon: FileWarning,
-        roles: ["STUDENT","FACULTY"],
+        roles: ["STUDENT", "FACULTY"],
       },
       {
         title: "Profile",
@@ -226,15 +236,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {role ? <span className="capitalize">{role}</span> : "Guest"}
           </div>
           <Link href="/">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                Cookies.remove("token");
-                localStorage.clear();
-                setRole(null);
-              }}
-            >
+            <Button variant="ghost" size="icon" onClick={logout}>
               <LogOut className="h-5 w-5" />
               <span className="sr-only">Logout</span>
             </Button>
@@ -259,11 +261,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </Link>
             ))}
             <Link
-              onClick={() => {
-                Cookies.remove("token");
-                localStorage.clear();
-                setRole(null);
-              }}
+              onClick={logout}
               href="/"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-all hover:bg-accent"
             >
