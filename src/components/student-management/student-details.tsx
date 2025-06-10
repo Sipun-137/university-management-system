@@ -1,3 +1,4 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -22,8 +23,13 @@ import {
   Globe,
   User,
 } from "lucide-react";
-import { GetStudentById } from "@/services/StudentService/StudentService";
+import {
+  GetStudentById,
+  updateStudentData,
+} from "@/services/StudentService/StudentService";
 import { useEffect, useState } from "react";
+import { EditStudentDialog } from "./edit-student-dialog";
+import toast, { Toaster } from "react-hot-toast";
 
 interface StudentProfile {
   id: number;
@@ -65,44 +71,35 @@ interface StudentProfile {
   updatedAt: string | null;
 }
 
-// Mock student details - in a real application, this would come from an API
-
-//  {
-//   id: id,
-//   name: "John Smith",
-//   email: "john.smith@university.edu",
-//   phone: "9876543210",
-//   emergencyContact: "Robert Smith - 9876543211",
-//   regdNo: "BTECH2021CSE001",
-//   rollNo: "210001",
-//   gender: "MALE",
-//   batch: { id: 1, name: "2021" },
-//   branch: { id: 1, name: "Computer Science" },
-//   section: { id: 1, name: "Section A" },
-//   currentSemester: { id: 1, name: "Semester 3" },
-//   academicStatus: "ACTIVE",
-//   bloodGroup: "O+",
-//   nationality: "Indian",
-//   dob: "May 12, 2003",
-//   address: "123 University Housing, Campus Area",
-//   guardian: {
-//     guardianName: "Robert Smith",
-//     guardianPhone: "9876543211",
-//     relationship: "Father",
-//   },
-//   profilePhotoUrl: "/placeholder.svg?height=128&width=128",
-//   createdAt: "August 15, 2021",
-//   updatedAt: "June 10, 2023",
-// }
-
 interface StudentDetailsProps {
   studentId: number | null;
 }
 
 export function StudentDetails({ studentId }: StudentDetailsProps) {
   const [student, setStudent] = useState<StudentProfile | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-  const getMockStudentDetails = async (id: number) => {
+  const handleEditClick = () => {
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditDialogClose = () => {
+    setIsEditDialogOpen(false);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSaveStudentData = async (updatedData: any) => {
+    console.log(updatedData);
+    const response = await updateStudentData(updatedData.id, updatedData);
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+    setIsEditDialogOpen(false);
+  };
+
+  const getStudentDetails = async (id: number) => {
     const studentDetail: StudentProfile = await GetStudentById(id);
     console.log(studentDetail);
     return studentDetail;
@@ -110,7 +107,7 @@ export function StudentDetails({ studentId }: StudentDetailsProps) {
 
   useEffect(() => {
     if (studentId) {
-      getMockStudentDetails(studentId).then(setStudent);
+      getStudentDetails(studentId).then(setStudent);
     }
   }, [studentId]);
   if (!studentId) {
@@ -187,8 +184,14 @@ export function StudentDetails({ studentId }: StudentDetailsProps) {
 
   return (
     <Card className="h-full">
+      <Toaster position="bottom-right"/>
       <CardHeader className="relative pb-0">
-        <Button variant="ghost" size="icon" className="absolute right-4 top-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-4"
+          onClick={handleEditClick}
+        >
           <FileEdit className="h-4 w-4" />
           <span className="sr-only">Edit</span>
         </Button>
@@ -462,6 +465,12 @@ export function StudentDetails({ studentId }: StudentDetailsProps) {
           </TabsContent>
         </Tabs>
       </CardContent>
+      <EditStudentDialog
+        open={isEditDialogOpen}
+        onClose={handleEditDialogClose}
+        onSave={handleSaveStudentData}
+        studentData={student}
+      />
     </Card>
   );
 }

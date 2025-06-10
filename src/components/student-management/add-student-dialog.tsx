@@ -36,38 +36,6 @@ import { cn } from "@/lib/utils";
 import { getAllBatches } from "@/services/AcademicService/BatchService";
 import { GetAllBranch } from "@/services/AcademicService/BranchService";
 
-// Mock data for dropdowns
-// const mockBatches = [
-//   { id: "1", name: "2020" },
-//   { id: "2", name: "2021" },
-//   { id: "3", name: "2022" },
-//   { id: "4", name: "2023" },
-// ];
-
-// const mockBranches = [
-//   { id: "1", name: "Computer Science" },
-//   { id: "2", name: "Electrical Engineering" },
-//   { id: "3", name: "Mechanical Engineering" },
-//   { id: "4", name: "Civil Engineering" },
-// ];
-
-// const mockSections = [
-//   { id: "1", name: "Section A" },
-//   { id: "2", name: "Section B" },
-//   { id: "3", name: "Section C" },
-// ];
-
-// const mockSemesters = [
-//   { id: "1", name: "Semester 1" },
-//   { id: "2", name: "Semester 2" },
-//   { id: "3", name: "Semester 3" },
-//   { id: "4", name: "Semester 4" },
-//   { id: "5", name: "Semester 5" },
-//   { id: "6", name: "Semester 6" },
-//   { id: "7", name: "Semester 7" },
-//   { id: "8", name: "Semester 8" },
-// ];
-
 interface StudentDTO {
   name: string;
   email: string;

@@ -93,8 +93,28 @@ export const getMyProfile=async()=>{
             }
         });
         return response.data;
-    } catch (e:any) {
-        console.log(e);
-        return {success:false};
+    } catch (e) {
+         if (e instanceof Error) {
+            return { success: false, message: e.message };
+        }
+        return { success: false, message: 'An unknown error occurred' };
+    
+    }
+}
+
+
+export const updateStudentData=async(id:string,formData:any)=>{
+    try {
+        const response=await axios.put(`${base_url}/student/${id}`,formData,{
+            headers:{
+                Authorization: `Bearer ${Cookies.get("token")}`
+            }
+        })
+        return response.data;
+    } catch (e) {
+       if (e instanceof Error) {
+            return { success: false, message: e.message };
+        }
+        return { success: false, message: 'An unknown error occurred' };
     }
 }

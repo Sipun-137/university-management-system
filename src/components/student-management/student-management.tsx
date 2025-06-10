@@ -1,22 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 
-import { useState } from "react"
-import { PlusCircle, Filter } from "lucide-react"
+import { useState } from "react";
+import { PlusCircle, Filter } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StudentList } from "@/components/student-management/student-list"
-import { StudentDetails } from "@/components/student-management/student-details"
-import { StudentFilters } from "@/components/student-management/student-filters"
-import { AddStudentDialog } from "@/components/student-management/add-student-dialog"
-import { AddStudent } from "@/services/StudentService/StudentService"
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { StudentList } from "@/components/student-management/student-list";
+import { StudentDetails } from "@/components/student-management/student-details";
+import { StudentFilters } from "@/components/student-management/student-filters";
+import { AddStudentDialog } from "@/components/student-management/add-student-dialog";
+import { AddStudent } from "@/services/StudentService/StudentService";
+
 
 export function StudentManagement() {
-  const [selectedStudent, setSelectedStudent] = useState<string | null>(null)
-  const [isAddStudentDialogOpen, setIsAddStudentDialogOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [showFilters, setShowFilters] = useState(false)
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  const [isAddStudentDialogOpen, setIsAddStudentDialogOpen] = useState(false);
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     batch: "all",
     branch: "all",
@@ -24,46 +26,46 @@ export function StudentManagement() {
     semester: "all",
     status: "all",
     gender: "all",
-  })
+  });
 
   const handleStudentSelect = (studentId: string) => {
-    setSelectedStudent(studentId)
-  }
+    setSelectedStudent(studentId);
+  };
 
   const handleSearchChange = (query: string) => {
-    setSearchQuery(query)
-  }
+    setSearchQuery(query);
+  };
 
   const handleFilterChange = (filterType: string, value: string) => {
     setFilters((prev) => ({
       ...prev,
       [filterType]: value,
-    }))
-  }
+    }));
+  };
 
   const handleAddStudent = () => {
-    
     setIsAddStudentDialogOpen(true);
+  };
 
 
-
-  }
-
-  const handleStudentAdded =async (student:any) => {
-    const addedStudent=await AddStudent(student);
+  const handleStudentAdded = async (student: any) => {
+    const addedStudent = await AddStudent(student);
     console.log(addedStudent);
-    
-    setIsAddStudentDialogOpen(false)
-    // Refresh student list here in a real application
-  }
+
+    setIsAddStudentDialogOpen(false);
+  };
+
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Student Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Student Management
+          </h1>
           <p className="text-muted-foreground">
-            View and manage student records, academic information, and personal details
+            View and manage student records, academic information, and personal
+            details
           </p>
         </div>
         <Button onClick={handleAddStudent}>
@@ -90,7 +92,12 @@ export function StudentManagement() {
               showFilters={showFilters}
             />
 
-            <Button variant="outline" size="sm" className="md:ml-auto" onClick={() => setShowFilters(!showFilters)}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="md:ml-auto"
+              onClick={() => setShowFilters(!showFilters)}
+            >
               <Filter className="mr-2 h-4 w-4" />
               {showFilters ? "Hide Filters" : "Show Filters"}
             </Button>
@@ -145,7 +152,11 @@ export function StudentManagement() {
               </TabsContent>
             </div>
             <div>
-              <StudentDetails studentId={selectedStudent !== null ? Number(selectedStudent) : null} />
+              <StudentDetails
+                studentId={
+                  selectedStudent !== null ? Number(selectedStudent) : null
+                }  
+              />
             </div>
           </div>
         </Tabs>
@@ -156,6 +167,8 @@ export function StudentManagement() {
         onClose={() => setIsAddStudentDialogOpen(false)}
         onStudentAdded={handleStudentAdded}
       />
+
+      
     </div>
-  )
+  );
 }
